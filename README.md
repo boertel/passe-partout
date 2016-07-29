@@ -11,7 +11,7 @@ First you need to get a GitHub access token (you can generate one here: https://
 when working on http://github.com/owner/repo, three actions are supported: ```lock```, ```unlock``` and ```status```
 
 ```
-$ passepartout lock owner/repo "Reason why I lock the deployment for this service"
+$ passepartout lock owner/repo -r "Reason why I lock the deployment for this service"
 locked
 ```
 
@@ -39,8 +39,10 @@ if [[ -f $LOCK_FILE ]]; then
     exit 1
 fi
 ```
-Note: ```git root``` com
 
+## Integration with Slack
+
+Check out: https://github.com/boertel/passe-partout-bot
 
 ## Etymology
 
