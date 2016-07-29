@@ -58,7 +58,7 @@ def cli(ctx, verbose, token):
 @click.argument('repo', required=False)
 @locking
 def status(ctx, locking):
-    message = 'locked' if locking.is_locked() else 'unlocked'
+    message = 'locked' if locking.status() else 'unlocked'
     click.echo(message)
 
 

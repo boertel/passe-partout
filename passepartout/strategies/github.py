@@ -57,7 +57,7 @@ class GithubLocking(Locking):
                 return response.json()
         return False
 
-    def is_locked(self):
+    def status(self):
         return self._get()
 
     def _get(self):

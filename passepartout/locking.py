@@ -15,7 +15,7 @@ class Locking(object):
     def unlock(self):
         raise NotImplementedError()
 
-    def is_locked(self):
+    def status(self):
         raise NotImplementedError()
 
     def _empty(self, *args, **kwargs):
