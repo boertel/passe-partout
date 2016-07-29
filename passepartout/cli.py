@@ -27,10 +27,14 @@ def locking(f):
             splitted = owner.split('/')
             owner = splitted[0]
             repo = splitted[1]
-        locking = GithubLocking(owner,
-                                repo,
-                                log=config.log,
-                                token=config.token)
+        try:
+            locking = GithubLocking(owner,
+                                    repo,
+                                    log=config.log,
+                                    token=config.token)
+        except Exception as e:
+            click.echo(e, err=True)
+            sys.exit(1)
         return ctx.invoke(f, ctx, locking, *args, **kwargs)
     return update_wrapper(new_func, f)
 

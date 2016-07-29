@@ -11,6 +11,8 @@ class GithubLocking(Locking):
     def __init__(self, *args, **kwargs):
         self.token = kwargs.pop('token')
         super(GithubLocking, self).__init__(*args, **kwargs)
+        if not self.exists():
+            raise Exception('{}/{} not found'.format(self.owner, self.repo))
 
     @property
     def url(self):
@@ -59,6 +61,13 @@ class GithubLocking(Locking):
 
     def status(self):
         return self._get()
+
+    def exists(self):
+        url = '{base}/repos/{owner}/{repo}'.format(base=self.BASE_URL,
+                                                   owner=self.owner,
+                                                   repo=self.repo)
+        response = requests.get(url, params={'access_token': self.token})
+        return response.status_code != 404
 
     def _get(self):
         response = requests.get(self.url,
