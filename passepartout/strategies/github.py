@@ -36,7 +36,7 @@ class GithubLocking(Locking):
         self._log(self.url, data)
         self._log(response.status_code, response.text)
         if response.status_code == 201:
-            return True
+            return response.json()
         return False
 
     def unlock(self):
@@ -52,11 +52,11 @@ class GithubLocking(Locking):
             self._log(self.url, data)
             self._log(response.status_code, response.text)
             if response.status_code == 200:
-                return True
+                return response.json()
         return False
 
     def is_locked(self):
-        return bool(self._get())
+        return self._get()
 
     def _get(self):
         response = requests.get(self.url,
