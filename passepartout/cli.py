@@ -21,8 +21,14 @@ def locking(f):
     @click.pass_context
     def new_func(ctx, *args, **kwargs):
         config = ctx.obj
-        locking = GithubLocking(kwargs.pop('owner'),
-                                kwargs.pop('repo'),
+        owner = kwargs.pop('owner')
+        repo = kwargs.pop('repo')
+        if repo is None:
+            splitted = owner.split('/')
+            owner = splitted[0]
+            repo = splitted[1]
+        locking = GithubLocking(owner,
+                                repo,
                                 log=config.log,
                                 token=config.token)
         return ctx.invoke(f, ctx, locking, *args, **kwargs)
@@ -38,15 +44,18 @@ def get_version(ctx, value):
 
 @click.group()
 @click.option('-v', '--verbose', count=True)
-@click.option('--token', envvar='GITHUB_TOKEN')
+@click.option('--token', envvar=('PASSEPARTOUT_GITHUB_TOKEN', 'GITHUB_TOKEN',))
 @click.pass_context
 def cli(ctx, verbose, token):
+    if not token:
+        click.echo('no github token found.', err=True)
+        sys.exit(1)
     ctx.obj = Config(verbose, token)
 
 
 @cli.command()
 @click.argument('owner')
-@click.argument('repo')
+@click.argument('repo', required=False)
 @locking
 def status(ctx, locking):
     message = 'locked' if locking.is_locked() else 'unlocked'
@@ -55,16 +64,17 @@ def status(ctx, locking):
 
 @cli.command()
 @click.argument('owner')
-@click.argument('repo')
+@click.argument('repo', required=False)
+@click.option('-r', '--reason', required=False)
 @locking
-def lock(ctx, locking):
-    message = 'locked' if locking.lock() else 'already locked'
+def lock(ctx, locking, reason):
+    message = 'locked' if locking.lock(reason) else 'already locked'
     click.echo(message)
 
 
 @cli.command()
 @click.argument('owner')
-@click.argument('repo')
+@click.argument('repo', required=False)
 @locking
 def unlock(ctx, locking):
     message = 'unlocked' if locking.unlock() else 'already unlocked'

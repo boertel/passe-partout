@@ -20,11 +20,13 @@ class GithubLocking(Locking):
             repo=self.repo,
             path=self.LOCK_PATH)
 
-    def lock(self):
+    def lock(self, reason=None):
         response = self._get()
         if response:
             return False
-        content = b64encode(self.LOCK_CONTENT.encode('utf-8')).decode('utf-8')
+        if reason is None:
+            reason = self.LOCK_CONTENT
+        content = b64encode(reason.encode('utf-8')).decode('utf-8')
         data = {
             'path': self.LOCK_PATH,
             'message': self.LOCK_MESSAGE,
