@@ -39,7 +39,6 @@ if [[ -f $LOCK_FILE ]]; then
     exit 1
 fi
 ```
-Note: ```git root``` com
 
 
 ## Etymology
