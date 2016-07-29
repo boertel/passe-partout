@@ -1,4 +1,4 @@
-class Locking(object):
+class BaseLocking(object):
     LOCK_PATH = '.lock'
     UNLOCK_MESSAGE = 'unlock'
     LOCK_MESSAGE = 'lock'

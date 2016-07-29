@@ -2,10 +2,10 @@ import json
 from base64 import b64encode
 import requests
 
-from passepartout.locking import Locking
+from passepartout.strategies.base import BaseLocking
 
 
-class GithubLocking(Locking):
+class GithubLocking(BaseLocking):
     BASE_URL = 'https://api.github.com'
 
     def __init__(self, *args, **kwargs):
