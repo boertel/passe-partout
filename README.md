@@ -40,7 +40,7 @@ if [[ -f $LOCK_FILE ]]; then
 fi
 ```
 
-## Integrated with Slack
+## Integration with Slack
 
 Check out: https://github.com/boertel/passe-partout-bot
 
