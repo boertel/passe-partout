@@ -2,7 +2,12 @@
 
 Passe-partout is a Lazy Decentralized Locking Mechanism.
 
+## Install
+
+
 ## Usage
+First you need to get a GitHub access token (you can generate one here: https://github.com/settings/tokens), then either you define the environment variable: ```PASSEPARTOUT_GITHUB_TOKEN=<your token>``` or use ```--token=<your token>``` option.
+
 when working on http://github.com/owner/repo, three actions are supported: ```lock```, ```unlock``` and ```status```
 
 ```
